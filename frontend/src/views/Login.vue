@@ -16,16 +16,14 @@
         v-model="username"
         :placeholder="t('login.username')"
       />
-      <input
+      <PasswordInput
         class="input input--block"
-        type="password"
         v-model="password"
         :placeholder="t('login.password')"
       />
-      <input
+      <PasswordInput
         class="input input--block"
         v-if="createMode"
-        type="password"
         v-model="passwordConfirm"
         :placeholder="t('login.passwordConfirm')"
       />

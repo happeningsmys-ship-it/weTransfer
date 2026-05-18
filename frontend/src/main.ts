@@ -12,6 +12,7 @@ import router from "@/router";
 import i18n, { isRtl } from "@/i18n";
 import App from "@/App.vue";
 import CustomToast from "@/components/CustomToast.vue";
+import PasswordInput from "@/components/PasswordInput.vue";
 
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -30,6 +31,7 @@ const pinia = createPinia(router);
 const app = createApp(App);
 
 app.component(VueNumberInput.name || "vue-number-input", VueNumberInput);
+app.component("PasswordInput", PasswordInput);
 app.use(VueLazyload);
 app.use(Toast, {
   transition: "Vue-Toastification__bounce",

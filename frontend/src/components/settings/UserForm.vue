@@ -12,9 +12,8 @@
 
     <p v-if="!isDefault">
       <label for="password">{{ t("settings.password") }}</label>
-      <input
+      <PasswordInput
         class="input input--block"
-        type="password"
         :placeholder="passwordPlaceholder"
         v-model="user.password"
         id="password"

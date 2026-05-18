@@ -108,9 +108,8 @@
           </select>
         </div>
         <p>{{ $t("prompts.optionalPassword") }}</p>
-        <input
+        <PasswordInput
           class="input input--block"
-          type="password"
           v-model.trim="password"
           tabindex="3"
         />

@@ -8,10 +8,9 @@
       <p>
         {{ $t("prompts.currentPasswordMessage") }}
       </p>
-      <input
+      <PasswordInput
         id="focus-prompt"
         class="input input--block"
-        type="password"
         @keyup.enter="submit"
         v-model="password"
       />

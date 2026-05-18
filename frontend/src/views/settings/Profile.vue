@@ -63,24 +63,21 @@
         </div>
 
         <div class="card-content">
-          <input
+          <PasswordInput
             :class="passwordClass"
-            type="password"
             :placeholder="t('settings.newPassword')"
             v-model="password"
             name="password"
           />
-          <input
+          <PasswordInput
             :class="passwordClass"
-            type="password"
             :placeholder="t('settings.newPasswordConfirm')"
             v-model="passwordConf"
             name="passwordConf"
           />
-          <input
+          <PasswordInput
             v-if="isCurrentPasswordRequired"
             :class="passwordClass"
-            type="password"
             :placeholder="t('settings.currentPassword')"
             v-model="currentPassword"
             name="current_password"
