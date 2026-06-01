@@ -1,4 +1,4 @@
-cat << 'EOF' > get.sh
+cat > get.sh << 'SCRIPT'
 #!/bin/bash
 set -e
 
@@ -20,7 +20,7 @@ sudo chmod +x /opt/wetransfer/wetransfer
 
 # Create systemd service
 echo "Setting up service..."
-cat << SERVICE | sudo tee /etc/systemd/system/wetransfer.service
+sudo tee /etc/systemd/system/wetransfer.service > /dev/null << SERVICE
 [Unit]
 Description=weTransfer NAS
 After=network.target
@@ -48,4 +48,4 @@ echo "   Open: http://$IP:8080"
 echo "   Login: admin / admin"
 echo ""
 echo "========================================"
-EOF
+SCRIPT
