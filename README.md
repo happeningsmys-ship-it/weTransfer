@@ -12,16 +12,51 @@ File Browser provides a file managing interface within a specified directory and
 
 Documentation on how to install, configure, and contribute to this project is hosted at [filebrowser.org](https://filebrowser.org).
 
+## Quick Install on Raspberry Pi 4 (64-bit OS)
+
+To install weTransfer NAS on a 64-bit Raspberry Pi OS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/happeningsmys-ship-it/weTransfer/latest-changes/get.sh | bash
+```
+
+Once installed, open `http://<RASPBERRY_PI_IP>:8080` in your web browser.
+- **Username**: `admin`
+- **Password**: `admin`
+
+## Building & Deploying Updates
+
+1. **Build Frontend**:
+   ```bash
+   cd frontend && pnpm install --frozen-lockfile && pnpm run build && cd ..
+   ```
+
+2. **Cross-Compile Go Backend**:
+   ```bash
+   GOOS=linux GOARCH=arm64 go build -ldflags='-s -w' -o build/linux-arm64/filebrowser .
+   GOOS=linux GOARCH=arm GOARM=7 go build -ldflags='-s -w' -o build/linux-armv7/filebrowser .
+   ```
+
+3. **Package & Release via GitHub CLI**:
+   ```bash
+   (cd build/linux-arm64 && tar -czvf ../../linux-arm64-filebrowser.tar.gz filebrowser)
+   (cd build/linux-armv7 && tar -czvf ../../linux-armv7-filebrowser.tar.gz filebrowser)
+
+   git tag v1.0.X && git push origin v1.0.X
+   gh release create v1.0.X linux-arm64-filebrowser.tar.gz linux-armv7-filebrowser.tar.gz --title "v1.0.X" --notes "Release notes"
+   ```
+
+4. **Update on Raspberry Pi**:
+   ```bash
+   sudo systemctl stop wetransfer
+   curl -fsSL https://github.com/happeningsmys-ship-it/weTransfer/releases/download/v1.0.X/linux-arm64-filebrowser.tar.gz | sudo tar -xz -C /opt/wetransfer filebrowser
+   sudo mv -f /opt/wetransfer/filebrowser /opt/wetransfer/wetransfer
+   sudo systemctl start wetransfer
+   ```
+
 ## Project Status
 
-This project is a finished product which fulfills its goal: be a single binary web File Browser which can be run by anyone anywhere. That means that File Browser is currently on **maintenance-only** mode. Therefore, please note the following:
-
-- It can take a while until someone gets back to you. Please be patient.
-- [Issues](https://github.com/filebrowser/filebrowser/issues) are meant to track bugs. Unrelated issues will be converted into [discussions](https://github.com/filebrowser/filebrowser/discussions).
-- The priority is triaging issues, addressing security issues and reviewing pull requests meant to solve bugs.
-- No new features are planned. Pull requests for new features are not guaranteed to be reviewed.
-
-Please read [@hacdias' personal reflection](https://hacdias.com/2026/03/11/filebrowser/) on the project status.
+This project is a finished product which fulfills its goal: be a single binary web File Browser which can be run by anyone anywhere. That means that File Browser is currently on **maintenance-only** mode.
 
 ## Contributing
 
@@ -30,3 +65,4 @@ Contributions are always welcome. To start contributing to this project, read ou
 ## License
 
 [Apache License 2.0](LICENSE) © File Browser Contributors
+
