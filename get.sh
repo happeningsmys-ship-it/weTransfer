@@ -1,8 +1,7 @@
-cat > get.sh << 'SCRIPT'
 #!/bin/bash
 set -e
 
-BINARY_URL="https://raw.githubusercontent.com/happeningsmys-ship-it/weTransfer/front-back-release/release/backend/weTransfer-linux-arm64"
+BINARY_URL="https://github.com/happeningsmys-ship-it/weTransfer/releases/download/v1.0.0/linux-arm64-filebrowser.tar.gz"
 
 echo "========================================"
 echo "   weTransfer NAS - Installing..."
@@ -13,20 +12,21 @@ sudo mkdir -p /opt/wetransfer
 sudo mkdir -p /mnt/storage
 sudo chmod 777 /mnt/storage
 
-# Download binary
-echo "Downloading binary..."
-sudo curl -fsSL "$BINARY_URL" -o /opt/wetransfer/wetransfer
+# Download & extract 64-bit binary
+echo "Downloading 64-bit arm64 binary..."
+curl -fsSL "$BINARY_URL" | sudo tar -xz -C /opt/wetransfer filebrowser
+sudo mv -f /opt/wetransfer/filebrowser /opt/wetransfer/wetransfer
 sudo chmod +x /opt/wetransfer/wetransfer
 
 # Create systemd service
-echo "Setting up service..."
+echo "Setting up systemd service..."
 sudo tee /etc/systemd/system/wetransfer.service > /dev/null << SERVICE
 [Unit]
 Description=weTransfer NAS
 After=network.target
 
 [Service]
-ExecStart=/opt/wetransfer/wetransfer -r /mnt/storage -a 0.0.0.0 -p 8080
+ExecStart=/opt/wetransfer/wetransfer -r /mnt/storage -a 0.0.0.0 -p 8080 -d /opt/wetransfer/wetransfer.db
 Restart=always
 User=root
 
@@ -48,4 +48,3 @@ echo "   Open: http://$IP:8080"
 echo "   Login: admin / admin"
 echo ""
 echo "========================================"
-SCRIPT
