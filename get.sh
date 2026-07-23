@@ -26,7 +26,7 @@ Description=weTransfer NAS
 After=network.target
 
 [Service]
-ExecStart=/opt/wetransfer/wetransfer -r /mnt/storage -a 0.0.0.0 -p 8080 -d /opt/wetransfer/wetransfer.db
+ExecStart=/opt/wetransfer/wetransfer -r /mnt/storage -a 0.0.0.0 -p 8080 -d /opt/wetransfer/wetransfer.db --username admin --password admin
 Restart=always
 User=root
 
@@ -34,9 +34,14 @@ User=root
 WantedBy=multi-user.target
 SERVICE
 
+# Ensure admin password is set to admin if database already exists
+if [ -f /opt/wetransfer/wetransfer.db ]; then
+  sudo /opt/wetransfer/wetransfer users update admin --password admin -d /opt/wetransfer/wetransfer.db 2>/dev/null || true
+fi
+
 sudo systemctl daemon-reload
 sudo systemctl enable wetransfer
-sudo systemctl start wetransfer
+sudo systemctl restart wetransfer
 
 IP=$(hostname -I | awk '{print $1}')
 echo ""
