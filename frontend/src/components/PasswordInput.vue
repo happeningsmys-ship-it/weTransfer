@@ -73,21 +73,22 @@ defineExpose({
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 0.25em;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--textSecondary);
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
+  color: var(--textPrimary);
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .password-toggle-btn:hover {
   opacity: 1;
+  transform: translateY(-50%) scale(1.05);
 }
 
 .password-toggle-btn .material-icons {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   user-select: none;
 }
 </style>

@@ -92,7 +92,7 @@ app.provide("$showError", (error: Error | string, displayReport = true) => {
       component: CustomToast,
       props: {
         message: (error as Error).message || error,
-        isReport: !disableExternal && displayReport,
+        isReport: false, // disabled to prevent GitHub navigation from error toasts
         // TODO: could you add this to the component itself?
         reportText: i18n.global.t("buttons.reportIssue"),
       },
